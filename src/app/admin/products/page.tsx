@@ -43,19 +43,19 @@ export default function AdminProducts() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Produk
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Harga
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Stok
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th scope="col" className="relative px-6 py-3">
+              <th scope="col" className="relative px-4 py-3 md:px-6">
                 <span className="sr-only">Aksi</span>
               </th>
             </tr>
@@ -86,7 +86,7 @@ export default function AdminProducts() {
 
                 return (
                   <tr key={product.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-12 w-12 bg-gray-100 rounded overflow-hidden border border-gray-200">
                           {primaryImage ? (
@@ -102,26 +102,38 @@ export default function AdminProducts() {
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{product.title}</div>
-                          <div className="text-sm text-gray-500">SKU: {product.sku || '-'}</div>
+                          <div className="text-xs text-gray-500">SKU: {product.sku || '-'}</div>
+                          {/* Info for mobile only */}
+                          <div className="md:hidden flex flex-col gap-0.5 mt-1">
+                            <span className="text-xs font-medium text-gray-900">
+                              {product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: product.currency || 'IDR', minimumFractionDigits: 0 }).format(product.price) : '-'}
+                            </span>
+                            <div className="flex items-center gap-2 text-[10px] text-gray-500 mt-0.5">
+                              <span>Stok: {product.stock}</span>
+                              <span className={`px-1.5 py-0.5 rounded-full ${product.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                {product.status === 'published' ? 'Publik' : 'Draft'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
                       {product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: product.currency || 'IDR', minimumFractionDigits: 0 }).format(product.price) : '-'}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.stock}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       product.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                     }`}>
                       {product.status === 'published' ? 'Publik' : 'Draft'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-4 md:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link href={`/admin/products/${product.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">
                       Edit
                     </Link>

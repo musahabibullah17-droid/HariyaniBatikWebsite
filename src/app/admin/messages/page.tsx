@@ -19,13 +19,13 @@ export default async function AdminMessages() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Tanggal & Pengirim
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Subjek & Pesan
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
             </tr>
@@ -40,16 +40,25 @@ export default async function AdminMessages() {
             ) : (
               messages.map((m) => (
                 <tr key={m.id} className={`hover:bg-gray-50 ${!m.is_read ? 'bg-blue-50/50' : ''}`}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{new Date(m.created_at).toLocaleDateString('id-ID')}</div>
-                    <div className="text-sm font-bold text-gray-900 mt-1">{m.name}</div>
+                    <div className="text-sm font-bold text-gray-900 mt-0.5">{m.name}</div>
                     <div className="text-xs text-gray-500">{m.email}</div>
+                    
+                    {/* Mobile only status */}
+                    <div className="md:hidden mt-2 text-xs">
+                      {m.is_read ? (
+                        <span className="text-gray-500">Sudah Dibaca</span>
+                      ) : (
+                        <span className="text-blue-600 font-medium">Belum Dibaca</span>
+                      )}
+                    </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">{m.subject || 'Tanpa Subjek'}</div>
-                    <div className="text-sm text-gray-500 mt-1">{m.message}</div>
+                    <div className="text-sm text-gray-500 mt-1 line-clamp-3">{m.message}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm">
                     {m.is_read ? (
                       <span className="text-gray-500">Sudah Dibaca</span>
                     ) : (

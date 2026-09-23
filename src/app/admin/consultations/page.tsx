@@ -20,19 +20,19 @@ export default async function AdminConsultations() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Tanggal & Pelanggan
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Kontak
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Pesan / Keperluan
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th scope="col" className="relative px-6 py-3">
+              <th scope="col" className="relative px-4 py-3 md:px-6">
                 <span className="sr-only">Aksi</span>
               </th>
             </tr>
@@ -47,15 +47,32 @@ export default async function AdminConsultations() {
             ) : (
               consultations.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{new Date(c.created_at).toLocaleDateString('id-ID')}</div>
-                    <div className="text-sm font-bold text-gray-900 mt-1">{c.customer_name}</div>
+                  <td className="px-4 md:px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">{new Date(c.created_at).toLocaleDateString('id-ID')}</div>
+                    <div className="text-sm font-bold text-gray-900 mt-0.5">{c.customer_name}</div>
+                    
+                    {/* Mobile only info */}
+                    <div className="md:hidden mt-2 flex flex-col gap-1">
+                      <div className="text-xs text-gray-600">📞 {c.customer_phone}</div>
+                      {c.notes && (
+                        <div className="text-xs text-gray-800 line-clamp-2 mt-1 italic border-l-2 border-brand-primary pl-2">
+                          {c.notes}
+                        </div>
+                      )}
+                      <div className="mt-1">
+                        <span className={`px-1.5 py-0.5 inline-flex text-[10px] leading-4 font-semibold rounded-full ${
+                          c.status === 'new' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {c.status === 'new' ? 'Baru' : c.status}
+                        </span>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">{c.customer_phone}</div>
                     <div className="text-sm text-gray-500">{c.customer_email || '-'}</div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="text-sm text-gray-900 line-clamp-2 max-w-xs" title={c.notes}>
                       {c.notes || '-'}
                     </div>
@@ -65,15 +82,15 @@ export default async function AdminConsultations() {
                       </div>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       c.status === 'new' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
                     }`}>
                       {c.status === 'new' ? 'Baru' : c.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href={`https://wa.me/${c.customer_phone.replace(/\D/g, '').replace(/^0/, '62')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-900 mr-4">
+                  <td className="px-4 md:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href={`https://wa.me/${c.customer_phone.replace(/\D/g, '').replace(/^0/, '62')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-900">
                       Chat WA
                     </a>
                   </td>
