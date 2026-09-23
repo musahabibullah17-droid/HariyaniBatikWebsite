@@ -13,7 +13,7 @@ jobs:
       - name: Ping Supabase REST API
         run: |
           echo "Pinging Supabase to keep it awake..."
-          curl -s -o /dev/null -w "%{http_code}" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJveGFucmNsdGtwb3pvYW5jb2hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MjE3MTYsImV4cCI6MjEwMjM5NzcxNn0.h4HKmfxh2oaHXtj_XUwgwLN4ujRpNwP3VyBi40gTRHk" \
-               -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJveGFucmNsdGtwb3pvYW5jb2hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MjE3MTYsImV4cCI6MjEwMjM5NzcxNn0.h4HKmfxh2oaHXtj_XUwgwLN4ujRpNwP3VyBi40gTRHk" \
-               "https://boxanrcltkpozoancohs.supabase.co/rest/v1/products?select=id&limit=1"
+          curl -s -o /dev/null -w "%{http_code}" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
+               -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
+               "https://azwfshallnxswbbtghzn.supabase.co/rest/v1/products?select=id&limit=1"
           echo "Ping finished!"
