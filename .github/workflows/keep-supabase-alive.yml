@@ -13,7 +13,7 @@ jobs:
       - name: Ping Supabase REST API
         run: |
           echo "Pinging Supabase to keep it awake..."
-          curl -s -o /dev/null -w "%{http_code}" -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-               -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-               "${{ secrets.SUPABASE_URL }}/rest/v1/products?select=id&limit=1"
+          curl -s -o /dev/null -w "%{http_code}" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJveGFucmNsdGtwb3pvYW5jb2hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MjE3MTYsImV4cCI6MjEwMjM5NzcxNn0.h4HKmfxh2oaHXtj_XUwgwLN4ujRpNwP3VyBi40gTRHk" \
+               -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJveGFucmNsdGtwb3pvYW5jb2hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MjE3MTYsImV4cCI6MjEwMjM5NzcxNn0.h4HKmfxh2oaHXtj_XUwgwLN4ujRpNwP3VyBi40gTRHk" \
+               "https://boxanrcltkpozoancohs.supabase.co/rest/v1/products?select=id&limit=1"
           echo "Ping finished!"
