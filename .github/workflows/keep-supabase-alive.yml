@@ -2,8 +2,8 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    # Menjalankan aksi ini setiap 2 hari sekali pada jam 00:00 UTC (07:00 WIB)
-    - cron: '0 0 */2 * *'
+    # Menjalankan aksi ini setiap hari pada jam 00:00 UTC (07:00 WIB)
+    - cron: '0 0 * * *'
   workflow_dispatch: # Memungkinkan kita menjalankan aksi ini secara manual jika diperlukan
 
 jobs:
@@ -12,8 +12,21 @@ jobs:
     steps:
       - name: Ping Supabase REST API
         run: |
-          echo "Pinging Supabase to keep it awake..."
-          curl -s -o /dev/null -w "%{http_code}" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
-               -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
-               "https://azwfshallnxswbbtghzn.supabase.co/rest/v1/products?select=id&limit=1"
-          echo "Ping finished!"
+          echo "Pinging Supabase REST API to keep database alive..."
+          
+          HTTP_STATUS=$(curl -4 --retry 3 --retry-delay 5 \
+            -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6d2ZzaGFsbG54c3diYnRnaHpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMzQzNTMsImV4cCI6MjEwNTcxMDM1M30.hsz3DPGqy6-c2a0JwZqS2IAASHhObE7dcTMM88YV6nY" \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            "https://azwfshallnxswbbtghzn.supabase.co/rest/v1/products?select=id&limit=1&_t=$(date +%s)")
+
+          echo "Response HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+            echo "✅ Supabase is alive and responding!"
+          else
+            echo "❌ Failed to ping Supabase or project is paused (HTTP $HTTP_STATUS)."
+            exit 1
+          fi
